@@ -14,7 +14,6 @@
 #include <arpa/inet.h>
 #include <ifaddrs.h>
 #include <inttypes.h>
-#include <net/ethernet.h>
 #include <net/if.h>
 #include <netdb.h>
 #include <p101_env/env.h>
@@ -22,6 +21,8 @@
 #include <stddef.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+
+struct ether_addr;
 
 #ifdef __cplusplus
 extern "C"

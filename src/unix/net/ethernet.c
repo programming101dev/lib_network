@@ -15,6 +15,7 @@
  */
 
 #include "p101_network/network.h"
+#include <net/ethernet.h>
 #include <p101_env/wrapper.h>
 
 #ifdef __linux__
