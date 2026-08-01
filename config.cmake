@@ -36,6 +36,10 @@ set(p101_network_LINK_LIBRARIES
         p101_tool_event
         p101_c
 )
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    # glibc exposes inet_net_ntop() and inet_net_pton() through libresolv.
+    list(APPEND p101_network_LINK_LIBRARIES resolv)
+endif()
 
 
 # design/unsupported contains documented interfaces that are deliberately
