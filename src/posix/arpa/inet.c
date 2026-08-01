@@ -162,7 +162,7 @@ in_addr_t p101_inet_addr(const struct p101_env *env, struct p101_error *err, con
     in_addr_t ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, INADDR_NONE);
+    P101_WRAPPER_FAULT_RETURN(env, err, (in_addr_t)P101_INET_ADDR_NONE_VALUE);
     errno   = 0;
     ret_val = inet_addr(cp);
 
