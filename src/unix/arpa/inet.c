@@ -173,7 +173,7 @@ int p101_inet_makeaddr(const struct p101_env *env, struct p101_error *err, in_ad
         value = net | lna;
     }
 
-    addr->s_addr = htonl(value);
+    addr->s_addr = p101_htonl(env, value);
 
     P101_TRACE_EXIT(env);
     return 0;
