@@ -75,7 +75,7 @@ int p101_getaddrinfo(const struct p101_env *env, struct p101_error *err, const c
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, EAI_SYSTEM);
+    P101_WRAPPER_FAULT_RETURN_SYSTEM_CODE(env, err);
     errno   = 0;
     ret_val = getaddrinfo(nodename, servname, hints, res);
 
@@ -97,7 +97,7 @@ int p101_getnameinfo(const struct p101_env *env, struct p101_error *err, const s
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, EAI_SYSTEM);
+    P101_WRAPPER_FAULT_RETURN_SYSTEM_CODE(env, err);
     errno   = 0;
     ret_val = getnameinfo(sa, salen, node, nodelen, service, servicelen, flags);
 
