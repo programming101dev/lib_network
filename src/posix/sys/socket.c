@@ -19,6 +19,7 @@
 
 int p101_accept(const struct p101_env *env, struct p101_error *err, int socket, struct sockaddr *restrict address, socklen_t *restrict address_len)
 {
+    int p101_single_result_;
     int ret_val;
     int fault;
 
@@ -30,7 +31,8 @@ int p101_accept(const struct p101_env *env, struct p101_error *err, int socket, 
         P101_ERROR_RAISE_ERRNO(err, fault);
         P101_TRACE_EXIT(env);
 
-        return -1;
+        p101_single_result_ = -1;
+        goto p101_single_exit_;
     }
 
     errno   = 0;
@@ -50,7 +52,11 @@ int p101_accept(const struct p101_env *env, struct p101_error *err, int socket, 
 
     P101_TRACE_EXIT(env);
 
-    return ret_val;
+    p101_single_result_ = ret_val;
+    goto p101_single_exit_;
+
+p101_single_exit_:
+    return p101_single_result_;
 }
 
 int p101_bind(const struct p101_env *env, struct p101_error *err, int socket, const struct sockaddr *address, socklen_t address_len)
@@ -58,7 +64,7 @@ int p101_bind(const struct p101_env *env, struct p101_error *err, int socket, co
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     errno   = 0;
     ret_val = bind(socket, address, address_len);
 
@@ -67,7 +73,7 @@ int p101_bind(const struct p101_env *env, struct p101_error *err, int socket, co
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -76,7 +82,7 @@ int p101_connect(const struct p101_env *env, struct p101_error *err, int socket,
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     errno   = 0;
     ret_val = connect(socket, address, address_len);
 
@@ -85,7 +91,7 @@ int p101_connect(const struct p101_env *env, struct p101_error *err, int socket,
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -94,7 +100,7 @@ int p101_getpeername(const struct p101_env *env, struct p101_error *err, int soc
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     errno   = 0;
     ret_val = getpeername(socket, address, address_len);
 
@@ -103,7 +109,7 @@ int p101_getpeername(const struct p101_env *env, struct p101_error *err, int soc
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -112,7 +118,7 @@ int p101_getsockname(const struct p101_env *env, struct p101_error *err, int soc
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     errno   = 0;
     ret_val = getsockname(socket, address, address_len);
 
@@ -121,7 +127,7 @@ int p101_getsockname(const struct p101_env *env, struct p101_error *err, int soc
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -130,7 +136,7 @@ int p101_getsockopt(const struct p101_env *env, struct p101_error *err, int sock
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     errno   = 0;
     ret_val = getsockopt(socket, level, option_name, option_value, option_len);
 
@@ -139,7 +145,7 @@ int p101_getsockopt(const struct p101_env *env, struct p101_error *err, int sock
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -148,7 +154,7 @@ int p101_listen(const struct p101_env *env, struct p101_error *err, int socket, 
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     errno   = 0;
     ret_val = listen(socket, backlog);
 
@@ -157,7 +163,7 @@ int p101_listen(const struct p101_env *env, struct p101_error *err, int socket, 
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -166,7 +172,7 @@ ssize_t p101_recv(const struct p101_env *env, struct p101_error *err, int socket
     ssize_t ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, (ssize_t)-1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, (ssize_t)-1);
     errno   = 0;
     ret_val = recv(socket, buffer, length, flags);
 
@@ -175,7 +181,7 @@ ssize_t p101_recv(const struct p101_env *env, struct p101_error *err, int socket
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -184,7 +190,7 @@ ssize_t p101_recvfrom(const struct p101_env *env, struct p101_error *err, int so
     ssize_t ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, (ssize_t)-1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, (ssize_t)-1);
     errno   = 0;
     ret_val = recvfrom(socket, buffer, length, flags, address, address_len);
 
@@ -193,7 +199,7 @@ ssize_t p101_recvfrom(const struct p101_env *env, struct p101_error *err, int so
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -202,7 +208,7 @@ ssize_t p101_recvmsg(const struct p101_env *env, struct p101_error *err, int soc
     ssize_t ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, (ssize_t)-1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, (ssize_t)-1);
     errno   = 0;
     ret_val = recvmsg(socket, message, flags);
 
@@ -211,7 +217,7 @@ ssize_t p101_recvmsg(const struct p101_env *env, struct p101_error *err, int soc
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -220,7 +226,7 @@ ssize_t p101_send(const struct p101_env *env, struct p101_error *err, int socket
     ssize_t ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, (ssize_t)-1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, (ssize_t)-1);
     errno   = 0;
     ret_val = send(socket, buffer, length, flags);
 
@@ -229,7 +235,7 @@ ssize_t p101_send(const struct p101_env *env, struct p101_error *err, int socket
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -238,7 +244,7 @@ ssize_t p101_sendmsg(const struct p101_env *env, struct p101_error *err, int soc
     ssize_t ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, (ssize_t)-1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, (ssize_t)-1);
     errno   = 0;
     ret_val = sendmsg(socket, message, flags);
 
@@ -247,7 +253,7 @@ ssize_t p101_sendmsg(const struct p101_env *env, struct p101_error *err, int soc
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -256,7 +262,7 @@ ssize_t p101_sendto(const struct p101_env *env, struct p101_error *err, int sock
     ssize_t ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, (ssize_t)-1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, (ssize_t)-1);
     errno   = 0;
     ret_val = sendto(socket, message, length, flags, dest_addr, dest_len);
 
@@ -265,7 +271,7 @@ ssize_t p101_sendto(const struct p101_env *env, struct p101_error *err, int sock
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -274,7 +280,7 @@ int p101_setsockopt(const struct p101_env *env, struct p101_error *err, int sock
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     errno   = 0;
     ret_val = setsockopt(socket, level, option_name, option_value, option_len);
 
@@ -283,7 +289,7 @@ int p101_setsockopt(const struct p101_env *env, struct p101_error *err, int sock
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -292,7 +298,7 @@ int p101_shutdown(const struct p101_env *env, struct p101_error *err, int socket
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     errno   = 0;
     ret_val = shutdown(socket, how);
 
@@ -301,7 +307,7 @@ int p101_shutdown(const struct p101_env *env, struct p101_error *err, int socket
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -310,7 +316,7 @@ int p101_sockatmark(const struct p101_env *env, struct p101_error *err, int s)
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     errno   = 0;
     ret_val = sockatmark(s);
 
@@ -319,12 +325,13 @@ int p101_sockatmark(const struct p101_env *env, struct p101_error *err, int s)
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
 int p101_socket(const struct p101_env *env, struct p101_error *err, int domain, int type, int protocol)
 {
+    int p101_single_result_;
     int ret_val;
     int fault;
 
@@ -336,7 +343,8 @@ int p101_socket(const struct p101_env *env, struct p101_error *err, int domain, 
         P101_ERROR_RAISE_ERRNO(err, fault);
         P101_TRACE_EXIT(env);
 
-        return -1;
+        p101_single_result_ = -1;
+        goto p101_single_exit_;
     }
 
     errno   = 0;
@@ -353,11 +361,16 @@ int p101_socket(const struct p101_env *env, struct p101_error *err, int domain, 
 
     P101_TRACE_EXIT(env);
 
-    return ret_val;
+    p101_single_result_ = ret_val;
+    goto p101_single_exit_;
+
+p101_single_exit_:
+    return p101_single_result_;
 }
 
 int p101_socketpair(const struct p101_env *env, struct p101_error *err, int domain, int type, int protocol, int socket_vector[2])
 {
+    int p101_single_result_;
     int ret_val;
     int fault;
 
@@ -369,7 +382,8 @@ int p101_socketpair(const struct p101_env *env, struct p101_error *err, int doma
         P101_ERROR_RAISE_ERRNO(err, fault);
         P101_TRACE_EXIT(env);
 
-        return -1;
+        p101_single_result_ = -1;
+        goto p101_single_exit_;
     }
 
     errno   = 0;
@@ -388,5 +402,9 @@ int p101_socketpair(const struct p101_env *env, struct p101_error *err, int doma
 
     P101_TRACE_EXIT(env);
 
-    return ret_val;
+    p101_single_result_ = ret_val;
+    goto p101_single_exit_;
+
+p101_single_exit_:
+    return p101_single_result_;
 }

@@ -27,7 +27,7 @@ struct ether_addr *p101_ether_aton(const struct p101_env *env, struct p101_error
     struct ether_addr *ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, NULL);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, NULL);
     ret_val = ether_aton(asc);
 
     if(ret_val == NULL)
@@ -36,7 +36,7 @@ struct ether_addr *p101_ether_aton(const struct p101_env *env, struct p101_error
         P101_ERROR_RAISE_ERRNO(err, EINVAL);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -47,7 +47,7 @@ int p101_ether_hostton(const struct p101_env *env, struct p101_error *err, const
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     caller_errno = errno;
     errno        = 0;
     ret_val      = ether_hostton(hostname, addr);
@@ -63,7 +63,7 @@ int p101_ether_hostton(const struct p101_env *env, struct p101_error *err, const
         errno = caller_errno;
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -74,7 +74,7 @@ int p101_ether_line(const struct p101_env *env, struct p101_error *err, const ch
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     caller_errno = errno;
     errno        = 0;
     ret_val      = ether_line(line, addr, hostname);
@@ -90,7 +90,7 @@ int p101_ether_line(const struct p101_env *env, struct p101_error *err, const ch
         errno = caller_errno;
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -112,7 +112,7 @@ int p101_ether_ntohost(const struct p101_env *env, struct p101_error *err, char 
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     caller_errno = errno;
     errno        = 0;
     ret_val      = ether_ntohost(hostname, addr);
@@ -128,6 +128,6 @@ int p101_ether_ntohost(const struct p101_env *env, struct p101_error *err, char 
         errno = caller_errno;
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }

@@ -52,22 +52,22 @@ static void test_inet_helpers(const struct p101_env *env)
     EXPECT(p101_inet_netof(env, address) == inet_netof(address));
 }
 
-static void test_database_controls(const struct p101_env *env)
+static void test_database_controls(const struct p101_env *env, struct p101_error *err)
 {
-    /* P101_TEST_CASE(p101_sethostent) */
-    p101_sethostent(env, 0);
+    p101_sethostent(env, err, 0);
+    EXPECT(p101_error_has_no_error(err));
     /* P101_TEST_CASE(p101_endhostent) */
     p101_endhostent(env);
-    /* P101_TEST_CASE(p101_setnetent) */
-    p101_setnetent(env, 0);
+    p101_setnetent(env, err, 0);
+    EXPECT(p101_error_has_no_error(err));
     /* P101_TEST_CASE(p101_endnetent) */
     p101_endnetent(env);
-    /* P101_TEST_CASE(p101_setprotoent) */
-    p101_setprotoent(env, 0);
+    p101_setprotoent(env, err, 0);
+    EXPECT(p101_error_has_no_error(err));
     /* P101_TEST_CASE(p101_endprotoent) */
     p101_endprotoent(env);
-    /* P101_TEST_CASE(p101_setservent) */
-    p101_setservent(env, 0);
+    p101_setservent(env, err, 0);
+    EXPECT(p101_error_has_no_error(err));
     /* P101_TEST_CASE(p101_endservent) */
     p101_endservent(env);
 }
@@ -138,7 +138,7 @@ int main(void)
     }
     test_byte_order(env);
     test_inet_helpers(env);
-    test_database_controls(env);
+    test_database_controls(env, err);
     test_owned_results(env);
     test_messages_and_ethernet(env);
     p101_env_destroy(env);

@@ -123,8 +123,8 @@ static void test_p101_accept(struct p101_env *env, struct p101_error *err)
     memset(argument_4, 0xA5, sizeof(argument_4));
     memcpy(argument_4_before, argument_4, sizeof(argument_4));
 #ifdef __linux__
-    static const int         errors[]      = {EIO};
-    static const char *const error_names[] = {"EIO"};
+    static const int         errors[]      = {EAGAIN, EBADF, ECONNABORTED, EINTR, EINVAL, EMFILE, ENFILE, ENOBUFS, ENOMEM, ENOTSOCK, EOPNOTSUPP, EPROTO, EWOULDBLOCK};
+    static const char *const error_names[] = {"EAGAIN", "EBADF", "ECONNABORTED", "EINTR", "EINVAL", "EMFILE", "ENFILE", "ENOBUFS", "ENOMEM", "ENOTSOCK", "EOPNOTSUPP", "EPROTO", "EWOULDBLOCK"};
 #elif defined(__APPLE__)
     static const int         errors[]      = {EBADF, ECONNABORTED, EFAULT, EINTR, EINVAL, EMFILE, ENFILE, ENOMEM, ENOTSOCK, EOPNOTSUPP, EWOULDBLOCK};
     static const char *const error_names[] = {"EBADF", "ECONNABORTED", "EFAULT", "EINTR", "EINVAL", "EMFILE", "ENFILE", "ENOMEM", "ENOTSOCK", "EOPNOTSUPP", "EWOULDBLOCK"};
@@ -700,11 +700,11 @@ static void test_p101_if_indextoname(struct p101_env *env, struct p101_error *er
     static const int         errors[]      = {EACCES, EAFNOSUPPORT, EINVAL, EMFILE, ENFILE, ENOBUFS, ENOMEM, ENXIO, EPROTONOSUPPORT};
     static const char *const error_names[] = {"EACCES", "EAFNOSUPPORT", "EINVAL", "EMFILE", "ENFILE", "ENOBUFS", "ENOMEM", "ENXIO", "EPROTONOSUPPORT"};
 #elif defined(__APPLE__)
-    static const int         errors[]      = {EIO};
-    static const char *const error_names[] = {"EIO"};
+    static const int         errors[]      = {ENXIO};
+    static const char *const error_names[] = {"ENXIO"};
 #elif defined(__FreeBSD__)
-    static const int         errors[]      = {EIO};
-    static const char *const error_names[] = {"EIO"};
+    static const int         errors[]      = {ENXIO};
+    static const char *const error_names[] = {"ENXIO"};
 #else
     static const int         errors[]      = {ENXIO};
     static const char *const error_names[] = {"ENXIO"};
@@ -743,11 +743,11 @@ static void test_p101_if_nameindex(struct p101_env *env, struct p101_error *err)
     static const char *const error_names[] = {"EACCES", "EADDRINUSE", "EADDRNOTAVAIL", "EAFNOSUPPORT", "EAGAIN",  "EALREADY", "EBADF",  "ECONNREFUSED", "ECONNRESET", "EDESTADDRREQ", "EFAULT",     "EINTR", "EINVAL",          "EISCONN", "ELOOP",
                                               "EMFILE", "EMSGSIZE",   "ENAMETOOLONG",  "ENFILE",       "ENOBUFS", "ENOENT",   "ENOMEM", "ENOTCONN",     "ENOTDIR",    "ENOTSOCK",     "EOPNOTSUPP", "EPIPE", "EPROTONOSUPPORT", "EROFS",   "EWOULDBLOCK"};
 #elif defined(__APPLE__)
-    static const int         errors[]      = {EIO};
-    static const char *const error_names[] = {"EIO"};
+    static const int         errors[]      = {ENOBUFS};
+    static const char *const error_names[] = {"ENOBUFS"};
 #elif defined(__FreeBSD__)
-    static const int         errors[]      = {EIO};
-    static const char *const error_names[] = {"EIO"};
+    static const int         errors[]      = {ENOBUFS};
+    static const char *const error_names[] = {"ENOBUFS"};
 #else
     static const int         errors[]      = {ENOBUFS};
     static const char *const error_names[] = {"ENOBUFS"};
@@ -1119,14 +1119,14 @@ static void test_p101_inet_pton(struct p101_env *env, struct p101_error *err)
     memset(argument_4, 0xA5, sizeof(argument_4));
     memcpy(argument_4_before, argument_4, sizeof(argument_4));
 #ifdef __linux__
-    static const int         errors[]      = {EIO};
-    static const char *const error_names[] = {"EIO"};
+    static const int         errors[]      = {EAFNOSUPPORT, ENOSPC};
+    static const char *const error_names[] = {"EAFNOSUPPORT", "ENOSPC"};
 #elif defined(__APPLE__)
-    static const int         errors[]      = {EIO};
-    static const char *const error_names[] = {"EIO"};
+    static const int         errors[]      = {EAFNOSUPPORT, ENOSPC};
+    static const char *const error_names[] = {"EAFNOSUPPORT", "ENOSPC"};
 #elif defined(__FreeBSD__)
-    static const int         errors[]      = {EIO};
-    static const char *const error_names[] = {"EIO"};
+    static const int         errors[]      = {EAFNOSUPPORT, ENOSPC};
+    static const char *const error_names[] = {"EAFNOSUPPORT", "ENOSPC"};
 #else
     static const int         errors[]      = {EAFNOSUPPORT, ENOSPC};
     static const char *const error_names[] = {"EAFNOSUPPORT", "ENOSPC"};
@@ -1204,14 +1204,14 @@ static void test_p101_recv(struct p101_env *env, struct p101_error *err)
     memset(argument_3, 0xA5, sizeof(argument_3));
     memcpy(argument_3_before, argument_3, sizeof(argument_3));
 #ifdef __linux__
-    static const int         errors[]      = {EIO};
-    static const char *const error_names[] = {"EIO"};
+    static const int         errors[]      = {EAGAIN, EBADF, ECONNRESET, EINTR, EINVAL, EIO, ENOBUFS, ENOMEM, ENOTCONN, ENOTSOCK, EOPNOTSUPP, ETIMEDOUT, EWOULDBLOCK};
+    static const char *const error_names[] = {"EAGAIN", "EBADF", "ECONNRESET", "EINTR", "EINVAL", "EIO", "ENOBUFS", "ENOMEM", "ENOTCONN", "ENOTSOCK", "EOPNOTSUPP", "ETIMEDOUT", "EWOULDBLOCK"};
 #elif defined(__APPLE__)
-    static const int         errors[]      = {EIO};
-    static const char *const error_names[] = {"EIO"};
+    static const int         errors[]      = {EAGAIN, EBADF, ECONNRESET, EINTR, EINVAL, EIO, ENOBUFS, ENOMEM, ENOTCONN, ENOTSOCK, EOPNOTSUPP, ETIMEDOUT, EWOULDBLOCK};
+    static const char *const error_names[] = {"EAGAIN", "EBADF", "ECONNRESET", "EINTR", "EINVAL", "EIO", "ENOBUFS", "ENOMEM", "ENOTCONN", "ENOTSOCK", "EOPNOTSUPP", "ETIMEDOUT", "EWOULDBLOCK"};
 #elif defined(__FreeBSD__)
-    static const int         errors[]      = {EIO};
-    static const char *const error_names[] = {"EIO"};
+    static const int         errors[]      = {EAGAIN, EBADF, ECONNRESET, EINTR, EINVAL, EIO, ENOBUFS, ENOMEM, ENOTCONN, ENOTSOCK, EOPNOTSUPP, ETIMEDOUT, EWOULDBLOCK};
+    static const char *const error_names[] = {"EAGAIN", "EBADF", "ECONNRESET", "EINTR", "EINVAL", "EIO", "ENOBUFS", "ENOMEM", "ENOTCONN", "ENOTSOCK", "EOPNOTSUPP", "ETIMEDOUT", "EWOULDBLOCK"};
 #else
     static const int         errors[]      = {EAGAIN, EBADF, ECONNRESET, EINTR, EINVAL, EIO, ENOBUFS, ENOMEM, ENOTCONN, ENOTSOCK, EOPNOTSUPP, ETIMEDOUT, EWOULDBLOCK};
     static const char *const error_names[] = {"EAGAIN", "EBADF", "ECONNRESET", "EINTR", "EINVAL", "EIO", "ENOBUFS", "ENOMEM", "ENOTCONN", "ENOTSOCK", "EOPNOTSUPP", "ETIMEDOUT", "EWOULDBLOCK"};
@@ -1259,8 +1259,8 @@ static void test_p101_recvfrom(struct p101_env *env, struct p101_error *err)
     static const int         errors[]      = {EAGAIN, EBADF, ECONNRESET, EFAULT, EINTR, EINVAL, ENOBUFS, ENOTCONN, ENOTSOCK, EOPNOTSUPP, ETIMEDOUT};
     static const char *const error_names[] = {"EAGAIN", "EBADF", "ECONNRESET", "EFAULT", "EINTR", "EINVAL", "ENOBUFS", "ENOTCONN", "ENOTSOCK", "EOPNOTSUPP", "ETIMEDOUT"};
 #elif defined(__FreeBSD__)
-    static const int         errors[]      = {EIO};
-    static const char *const error_names[] = {"EIO"};
+    static const int         errors[]      = {EAGAIN, EBADF, ECONNRESET, EINTR, EINVAL, EIO, ENOBUFS, ENOMEM, ENOTCONN, ENOTSOCK, EOPNOTSUPP, ETIMEDOUT, EWOULDBLOCK};
+    static const char *const error_names[] = {"EAGAIN", "EBADF", "ECONNRESET", "EINTR", "EINVAL", "EIO", "ENOBUFS", "ENOMEM", "ENOTCONN", "ENOTSOCK", "EOPNOTSUPP", "ETIMEDOUT", "EWOULDBLOCK"};
 #else
     static const int         errors[]      = {EAGAIN, EBADF, ECONNRESET, EINTR, EINVAL, EIO, ENOBUFS, ENOMEM, ENOTCONN, ENOTSOCK, EOPNOTSUPP, ETIMEDOUT, EWOULDBLOCK};
     static const char *const error_names[] = {"EAGAIN", "EBADF", "ECONNRESET", "EINTR", "EINVAL", "EIO", "ENOBUFS", "ENOMEM", "ENOTCONN", "ENOTSOCK", "EOPNOTSUPP", "ETIMEDOUT", "EWOULDBLOCK"};
@@ -1453,6 +1453,158 @@ static void test_p101_sendto(struct p101_env *env, struct p101_error *err)
         EXPECT(result == ((ssize_t)-1));
         EXPECT(fault_resource_events == 0U);
         write_outcome("p101_sendto", "errno", error_names[index], state.code, failures == failures_before);
+        p101_error_reset(err);
+    }
+    p101_env_set_fault_injector(env, NULL, NULL);
+}
+
+/* P101_TEST_CASE(p101_sethostent) */
+static void test_p101_sethostent(struct p101_env *env, struct p101_error *err)
+{
+#ifdef __linux__
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#elif defined(__APPLE__)
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#elif defined(__FreeBSD__)
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#else
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#endif
+
+    for(size_t index = 0U; index < sizeof(errors) / sizeof(errors[0]); index++)
+    {
+        struct fault_state state = {0, errors[index]};
+        int                failures_before;
+
+        failures_before = failures;
+        EXPECT(p101_error_has_no_error(err));
+        fault_resource_events = 0U;
+        errno                 = P101_TEST_ERRNO_SENTINEL;
+        p101_env_set_fault_injector(env, fail_next_call, &state);
+        p101_sethostent(env, err, 0);
+        EXPECT(state.checks == 1);
+        EXPECT(p101_error_is_errno(err, state.code));
+        EXPECT(errno == P101_TEST_ERRNO_SENTINEL);
+        EXPECT(fault_resource_events == 0U);
+        write_outcome("p101_sethostent", "errno", error_names[index], state.code, failures == failures_before);
+        p101_error_reset(err);
+    }
+    p101_env_set_fault_injector(env, NULL, NULL);
+}
+
+/* P101_TEST_CASE(p101_setnetent) */
+static void test_p101_setnetent(struct p101_env *env, struct p101_error *err)
+{
+#ifdef __linux__
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#elif defined(__APPLE__)
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#elif defined(__FreeBSD__)
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#else
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#endif
+
+    for(size_t index = 0U; index < sizeof(errors) / sizeof(errors[0]); index++)
+    {
+        struct fault_state state = {0, errors[index]};
+        int                failures_before;
+
+        failures_before = failures;
+        EXPECT(p101_error_has_no_error(err));
+        fault_resource_events = 0U;
+        errno                 = P101_TEST_ERRNO_SENTINEL;
+        p101_env_set_fault_injector(env, fail_next_call, &state);
+        p101_setnetent(env, err, 0);
+        EXPECT(state.checks == 1);
+        EXPECT(p101_error_is_errno(err, state.code));
+        EXPECT(errno == P101_TEST_ERRNO_SENTINEL);
+        EXPECT(fault_resource_events == 0U);
+        write_outcome("p101_setnetent", "errno", error_names[index], state.code, failures == failures_before);
+        p101_error_reset(err);
+    }
+    p101_env_set_fault_injector(env, NULL, NULL);
+}
+
+/* P101_TEST_CASE(p101_setprotoent) */
+static void test_p101_setprotoent(struct p101_env *env, struct p101_error *err)
+{
+#ifdef __linux__
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#elif defined(__APPLE__)
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#elif defined(__FreeBSD__)
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#else
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#endif
+
+    for(size_t index = 0U; index < sizeof(errors) / sizeof(errors[0]); index++)
+    {
+        struct fault_state state = {0, errors[index]};
+        int                failures_before;
+
+        failures_before = failures;
+        EXPECT(p101_error_has_no_error(err));
+        fault_resource_events = 0U;
+        errno                 = P101_TEST_ERRNO_SENTINEL;
+        p101_env_set_fault_injector(env, fail_next_call, &state);
+        p101_setprotoent(env, err, 0);
+        EXPECT(state.checks == 1);
+        EXPECT(p101_error_is_errno(err, state.code));
+        EXPECT(errno == P101_TEST_ERRNO_SENTINEL);
+        EXPECT(fault_resource_events == 0U);
+        write_outcome("p101_setprotoent", "errno", error_names[index], state.code, failures == failures_before);
+        p101_error_reset(err);
+    }
+    p101_env_set_fault_injector(env, NULL, NULL);
+}
+
+/* P101_TEST_CASE(p101_setservent) */
+static void test_p101_setservent(struct p101_env *env, struct p101_error *err)
+{
+#ifdef __linux__
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#elif defined(__APPLE__)
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#elif defined(__FreeBSD__)
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#else
+    static const int         errors[]      = {EMFILE, ENFILE};
+    static const char *const error_names[] = {"EMFILE", "ENFILE"};
+#endif
+
+    for(size_t index = 0U; index < sizeof(errors) / sizeof(errors[0]); index++)
+    {
+        struct fault_state state = {0, errors[index]};
+        int                failures_before;
+
+        failures_before = failures;
+        EXPECT(p101_error_has_no_error(err));
+        fault_resource_events = 0U;
+        errno                 = P101_TEST_ERRNO_SENTINEL;
+        p101_env_set_fault_injector(env, fail_next_call, &state);
+        p101_setservent(env, err, 0);
+        EXPECT(state.checks == 1);
+        EXPECT(p101_error_is_errno(err, state.code));
+        EXPECT(errno == P101_TEST_ERRNO_SENTINEL);
+        EXPECT(fault_resource_events == 0U);
+        write_outcome("p101_setservent", "errno", error_names[index], state.code, failures == failures_before);
         p101_error_reset(err);
     }
     p101_env_set_fault_injector(env, NULL, NULL);
@@ -1732,6 +1884,10 @@ int main(void)
     test_p101_send(env, err);
     test_p101_sendmsg(env, err);
     test_p101_sendto(env, err);
+    test_p101_sethostent(env, err);
+    test_p101_setnetent(env, err);
+    test_p101_setprotoent(env, err);
+    test_p101_setservent(env, err);
     test_p101_setsockopt(env, err);
     test_p101_shutdown(env, err);
     test_p101_sockatmark(env, err);

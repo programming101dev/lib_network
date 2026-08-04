@@ -75,7 +75,7 @@ int p101_getaddrinfo(const struct p101_env *env, struct p101_error *err, const c
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN_SYSTEM_CODE(env, err);
+    P101_WRAPPER_FAULT_RETURN_SYSTEM_CODE(env, err, ret_val);
     errno   = 0;
     ret_val = getaddrinfo(nodename, servname, hints, res);
 
@@ -88,7 +88,7 @@ int p101_getaddrinfo(const struct p101_env *env, struct p101_error *err, const c
         P101_TRACK_POINTER_RESOURCE_ACQUIRE(env, "address-info", *res, 0U, NULL);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -97,7 +97,7 @@ int p101_getnameinfo(const struct p101_env *env, struct p101_error *err, const s
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN_SYSTEM_CODE(env, err);
+    P101_WRAPPER_FAULT_RETURN_SYSTEM_CODE(env, err, ret_val);
     errno   = 0;
     ret_val = getnameinfo(sa, salen, node, nodelen, service, servicelen, flags);
 
@@ -106,38 +106,58 @@ int p101_getnameinfo(const struct p101_env *env, struct p101_error *err, const s
         P101_ERROR_RAISE_SYSTEM(err, p101_gai_strerror(env, ret_val), ret_val);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
-void p101_sethostent(const struct p101_env *env, int stayopen)
+void p101_sethostent(const struct p101_env *env, struct p101_error *err, int stayopen)
 {
     P101_TRACE(env);
+    P101_WRAPPER_FAULT_RETURN_VOID(env, err);
     errno = 0;
     sethostent(stayopen);
-    P101_TRACE_EXIT(env);
+    if(errno != 0)
+    {
+        P101_ERROR_RAISE_ERRNO(err, errno);
+    }
+    P101_WRAPPER_DONE(env);
 }
 
-void p101_setnetent(const struct p101_env *env, int stayopen)
+void p101_setnetent(const struct p101_env *env, struct p101_error *err, int stayopen)
 {
     P101_TRACE(env);
+    P101_WRAPPER_FAULT_RETURN_VOID(env, err);
     errno = 0;
     setnetent(stayopen);
-    P101_TRACE_EXIT(env);
+    if(errno != 0)
+    {
+        P101_ERROR_RAISE_ERRNO(err, errno);
+    }
+    P101_WRAPPER_DONE(env);
 }
 
-void p101_setprotoent(const struct p101_env *env, int stayopen)
+void p101_setprotoent(const struct p101_env *env, struct p101_error *err, int stayopen)
 {
     P101_TRACE(env);
+    P101_WRAPPER_FAULT_RETURN_VOID(env, err);
     errno = 0;
     setprotoent(stayopen);
-    P101_TRACE_EXIT(env);
+    if(errno != 0)
+    {
+        P101_ERROR_RAISE_ERRNO(err, errno);
+    }
+    P101_WRAPPER_DONE(env);
 }
 
-void p101_setservent(const struct p101_env *env, int stayopen)
+void p101_setservent(const struct p101_env *env, struct p101_error *err, int stayopen)
 {
     P101_TRACE(env);
+    P101_WRAPPER_FAULT_RETURN_VOID(env, err);
     errno = 0;
     setservent(stayopen);
-    P101_TRACE_EXIT(env);
+    if(errno != 0)
+    {
+        P101_ERROR_RAISE_ERRNO(err, errno);
+    }
+    P101_WRAPPER_DONE(env);
 }

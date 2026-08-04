@@ -30,6 +30,10 @@ p101_recvmsg	fault	test/test_fault_wrappers.c
 p101_send	fault	test/test_fault_wrappers.c
 p101_sendmsg	fault	test/test_fault_wrappers.c
 p101_sendto	fault	test/test_fault_wrappers.c
+p101_sethostent	fault	test/test_fault_wrappers.c
+p101_setnetent	fault	test/test_fault_wrappers.c
+p101_setprotoent	fault	test/test_fault_wrappers.c
+p101_setservent	fault	test/test_fault_wrappers.c
 p101_setsockopt	fault	test/test_fault_wrappers.c
 p101_shutdown	fault	test/test_fault_wrappers.c
 p101_sockatmark	fault	test/test_fault_wrappers.c
@@ -51,7 +55,3 @@ p101_inet_netof	behavior	test/test_behavior.c
 p101_inet_ntoa	behavior	test/test_behavior.c
 p101_ntohl	behavior	test/test_behavior.c
 p101_ntohs	behavior	test/test_behavior.c
-p101_sethostent	behavior	test/test_behavior.c
-p101_setnetent	behavior	test/test_behavior.c
-p101_setprotoent	behavior	test/test_behavior.c
-p101_setservent	behavior	test/test_behavior.c

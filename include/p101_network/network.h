@@ -76,10 +76,10 @@ extern "C"
     ssize_t              p101_send(const struct p101_env *env, struct p101_error *err, int socket, const void *buffer, size_t length, int flags);
     ssize_t              p101_sendmsg(const struct p101_env *env, struct p101_error *err, int socket, const struct msghdr *message, int flags);
     ssize_t              p101_sendto(const struct p101_env *env, struct p101_error *err, int socket, const void *message, size_t length, int flags, const struct sockaddr *dest_addr, socklen_t dest_len);
-    void                 p101_sethostent(const struct p101_env *env, int stayopen);
-    void                 p101_setnetent(const struct p101_env *env, int stayopen);
-    void                 p101_setprotoent(const struct p101_env *env, int stayopen);
-    void                 p101_setservent(const struct p101_env *env, int stayopen);
+    void                 p101_sethostent(const struct p101_env *env, struct p101_error *err, int stayopen);
+    void                 p101_setnetent(const struct p101_env *env, struct p101_error *err, int stayopen);
+    void                 p101_setprotoent(const struct p101_env *env, struct p101_error *err, int stayopen);
+    void                 p101_setservent(const struct p101_env *env, struct p101_error *err, int stayopen);
     int                  p101_setsockopt(const struct p101_env *env, struct p101_error *err, int socket, int level, int option_name, const void *option_value, socklen_t option_len);
     int                  p101_shutdown(const struct p101_env *env, struct p101_error *err, int socket, int how);
     int                  p101_sockatmark(const struct p101_env *env, struct p101_error *err, int s);

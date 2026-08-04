@@ -22,7 +22,7 @@ int p101_getifaddrs(const struct p101_env *env, struct p101_error *err, struct i
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     ret_val = getifaddrs(ifap);
 
     if(ret_val == -1)
@@ -34,7 +34,7 @@ int p101_getifaddrs(const struct p101_env *env, struct p101_error *err, struct i
         P101_TRACK_ALLOC(env, *ifap, 0);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 

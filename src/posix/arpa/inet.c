@@ -39,6 +39,7 @@ static int is_inet_addr_none_string(const struct p101_env *env, const char *cp);
 
 static int is_inet_addr_none_string(const struct p101_env *env, const char *cp)
 {
+    int           p101_single_result_;
     unsigned long parts[P101_INET_ADDR_PARTS];
     unsigned long value;
     const char   *p;
@@ -53,7 +54,8 @@ static int is_inet_addr_none_string(const struct p101_env *env, const char *cp)
 
         if(!p101_isdigit(env, (unsigned char)*p) || count >= P101_INET_ADDR_PARTS)
         {
-            return 0;
+            p101_single_result_ = 0;
+            goto p101_single_exit_;
         }
 
         errno = 0;
@@ -61,7 +63,8 @@ static int is_inet_addr_none_string(const struct p101_env *env, const char *cp)
         parts[count] = p101_strtoul(env, NULL, p, &end, 0);
         if(end == p || errno != 0)
         {
-            return 0;
+            p101_single_result_ = 0;
+            goto p101_single_exit_;
         }
         count++;
 
@@ -71,7 +74,8 @@ static int is_inet_addr_none_string(const struct p101_env *env, const char *cp)
         }
         if(*end != '.')
         {
-            return 0;
+            p101_single_result_ = 0;
+            goto p101_single_exit_;
         }
         p = end + 1;
     }
@@ -84,29 +88,37 @@ static int is_inet_addr_none_string(const struct p101_env *env, const char *cp)
         case 2:
             if(parts[0] > P101_INET_OCTET_MAX || parts[1] > P101_INET_CLASS_A_REST)
             {
-                return 0;
+                p101_single_result_ = 0;
+                goto p101_single_exit_;
             }
             value = (parts[0] << P101_INET_CLASS_A_SHIFT) | parts[1];
             break;
         case 3:
             if(parts[0] > P101_INET_OCTET_MAX || parts[1] > P101_INET_OCTET_MAX || parts[2] > P101_INET_CLASS_B_REST)
             {
-                return 0;
+                p101_single_result_ = 0;
+                goto p101_single_exit_;
             }
             value = (parts[0] << P101_INET_CLASS_A_SHIFT) | (parts[1] << P101_INET_CLASS_B_SHIFT) | parts[2];
             break;
         case 4:
             if(parts[0] > P101_INET_OCTET_MAX || parts[1] > P101_INET_OCTET_MAX || parts[2] > P101_INET_OCTET_MAX || parts[3] > P101_INET_OCTET_MAX)
             {
-                return 0;
+                p101_single_result_ = 0;
+                goto p101_single_exit_;
             }
             value = (parts[0] << P101_INET_CLASS_A_SHIFT) | (parts[1] << P101_INET_CLASS_B_SHIFT) | (parts[2] << P101_INET_CLASS_C_SHIFT) | parts[3];
             break;
         default:
-            return 0;
+            p101_single_result_ = 0;
+            goto p101_single_exit_;
     }
 
-    return value == P101_INET_ADDR_NONE_VALUE;
+    p101_single_result_ = value == P101_INET_ADDR_NONE_VALUE;
+    goto p101_single_exit_;
+
+p101_single_exit_:
+    return p101_single_result_;
 }
 
 uint32_t p101_htonl(const struct p101_env *env, uint32_t hostlong)
@@ -162,7 +174,7 @@ in_addr_t p101_inet_addr(const struct p101_env *env, struct p101_error *err, con
     in_addr_t ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, (in_addr_t)P101_INET_ADDR_NONE_VALUE);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, (in_addr_t)P101_INET_ADDR_NONE_VALUE);
     errno   = 0;
     ret_val = inet_addr(cp);
 
@@ -171,7 +183,7 @@ in_addr_t p101_inet_addr(const struct p101_env *env, struct p101_error *err, con
         P101_ERROR_RAISE_ERRNO(err, EINVAL);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -192,7 +204,7 @@ const char *p101_inet_ntop(const struct p101_env *env, struct p101_error *err, i
     const char *ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, NULL);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, NULL);
     errno   = 0;
     ret_val = inet_ntop(af, src, dst, size);
 
@@ -201,7 +213,7 @@ const char *p101_inet_ntop(const struct p101_env *env, struct p101_error *err, i
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -210,7 +222,7 @@ int p101_inet_pton(const struct p101_env *env, struct p101_error *err, int af, c
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     errno   = 0;
     ret_val = inet_pton(af, src, dst);
 
@@ -226,6 +238,6 @@ int p101_inet_pton(const struct p101_env *env, struct p101_error *err, int af, c
         }
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }

@@ -31,7 +31,7 @@ char *p101_if_indextoname(const struct p101_env *env, struct p101_error *err, un
     char *ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, NULL);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, NULL);
     errno   = 0;
     ret_val = if_indextoname(ifindex, ifname);
 
@@ -39,7 +39,7 @@ char *p101_if_indextoname(const struct p101_env *env, struct p101_error *err, un
     {
         P101_ERROR_RAISE_ERRNO(err, errno);
     }
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -48,7 +48,7 @@ struct if_nameindex *p101_if_nameindex(const struct p101_env *env, struct p101_e
     struct if_nameindex *ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, NULL);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, NULL);
     errno   = 0;
     ret_val = if_nameindex();
 
@@ -61,7 +61,7 @@ struct if_nameindex *p101_if_nameindex(const struct p101_env *env, struct p101_e
         P101_TRACK_POINTER_RESOURCE_ACQUIRE(env, "interface-name-index", ret_val, 0U, NULL);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -70,7 +70,7 @@ unsigned p101_if_nametoindex(const struct p101_env *env, struct p101_error *err,
     unsigned ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, 0);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, 0);
     errno   = 0;
     ret_val = if_nametoindex(ifname);
 
@@ -79,6 +79,6 @@ unsigned p101_if_nametoindex(const struct p101_env *env, struct p101_error *err,
         P101_ERROR_RAISE_ERRNO(err, errno == 0 ? ENXIO : errno);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
