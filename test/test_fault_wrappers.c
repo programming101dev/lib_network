@@ -848,7 +848,7 @@ static void test_p101_inet_addr(struct p101_env *env, struct p101_error *err)
         EXPECT(state.checks == 1);
         EXPECT(p101_error_is_errno(err, state.code));
         EXPECT(errno == P101_TEST_ERRNO_SENTINEL);
-        EXPECT(result == ((in_addr_t)INADDR_NONE));
+        EXPECT(result == ((in_addr_t)-1));
         EXPECT(fault_resource_events == 0U);
         write_outcome("p101_inet_addr", "errno", error_names[index], state.code, failures == failures_before);
         p101_error_reset(err);
@@ -1058,7 +1058,7 @@ static void test_p101_inet_network(struct p101_env *env, struct p101_error *err)
         EXPECT(state.checks == 1);
         EXPECT(p101_error_is_errno(err, state.code));
         EXPECT(errno == P101_TEST_ERRNO_SENTINEL);
-        EXPECT(result == ((in_addr_t)INADDR_NONE));
+        EXPECT(result == ((in_addr_t)-1));
         EXPECT(fault_resource_events == 0U);
         write_outcome("p101_inet_network", "errno", error_names[index], state.code, failures == failures_before);
         p101_error_reset(err);
