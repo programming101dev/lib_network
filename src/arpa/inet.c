@@ -41,7 +41,6 @@
 #include <limits.h>
 #include <p101_c/p101_ctype.h>
 #include <p101_c/p101_stdlib.h>
-#include <p101_env/wrapper.h>
 #include <stdlib.h>
 
 enum
