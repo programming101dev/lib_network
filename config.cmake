@@ -19,10 +19,20 @@ set(BSD_STANDARD_FLAGS -D_BSD_SOURCE -D__BSD_VISIBLE)
 
 set(LIBRARY_TARGETS p101_network)
 set(p101_network_SOURCES
-        src/network.c
+        src/arpa/inet.c
+        src/ifaddrs.c
+        src/net/ethernet.c
+        src/net/if.c
+        src/netdb.c
+        src/sys/socket.c
 )
 set(p101_network_HEADERS
-        include/p101_network/network.h
+        include/p101_network/arpa/p101_inet.h
+        include/p101_network/net/p101_ethernet.h
+        include/p101_network/net/p101_if.h
+        include/p101_network/p101_ifaddrs.h
+        include/p101_network/p101_netdb.h
+        include/p101_network/sys/p101_socket.h
 )
 set(p101_network_LINK_LIBRARIES
         p101_error

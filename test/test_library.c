@@ -1,6 +1,11 @@
 #include <p101_env/env.h>
 #include <p101_error/error.h>
-#include <p101_network/network.h>
+#include <p101_network/arpa/p101_inet.h>
+#include <p101_network/net/p101_ethernet.h>
+#include <p101_network/net/p101_if.h>
+#include <p101_network/p101_ifaddrs.h>
+#include <p101_network/p101_netdb.h>
+#include <p101_network/sys/p101_socket.h>
 #include <stdlib.h>
 
 int main(void)
