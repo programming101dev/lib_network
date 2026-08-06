@@ -19,13 +19,7 @@ set(BSD_STANDARD_FLAGS -D_BSD_SOURCE -D__BSD_VISIBLE)
 
 set(LIBRARY_TARGETS p101_network)
 set(p101_network_SOURCES
-        src/posix/arpa/inet.c
-        src/posix/net/if.c
-        src/posix/netdb.c
-        src/posix/sys/socket.c
-        src/unix/arpa/inet.c
-        src/unix/ifaddrs.c
-        src/unix/net/ethernet.c
+        src/network.c
 )
 set(p101_network_HEADERS
         include/p101_network/network.h
