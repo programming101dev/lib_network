@@ -15,6 +15,7 @@
  */
 
 #include "p101_network/net/p101_if.h"
+#include <p101_env/resource_classes.h>
 #include <p101_env/wrapper.h>
 
 /*
@@ -37,7 +38,7 @@ void p101_if_freenameindex(const struct p101_env *env, struct if_nameindex *ptr)
 {
     P101_TRACE(env);
     errno = 0;
-    P101_TRACK_POINTER_RESOURCE_RELEASE(env, "interface-name-index", ptr, NULL);
+    P101_TRACK_POINTER_RESOURCE_RELEASE(env, P101_RESOURCE_CLASS_INTERFACE_NAME_INDEX, ptr, NULL);
     if_freenameindex(ptr);
     P101_TRACE_EXIT(env);
 }
@@ -74,7 +75,7 @@ struct if_nameindex *p101_if_nameindex(const struct p101_env *env, struct p101_e
     }
     else
     {
-        P101_TRACK_POINTER_RESOURCE_ACQUIRE(env, "interface-name-index", ret_val, 0U, NULL);
+        P101_TRACK_POINTER_RESOURCE_ACQUIRE(env, P101_RESOURCE_CLASS_INTERFACE_NAME_INDEX, ret_val, 0U, NULL);
     }
 
     P101_WRAPPER_DONE(env);
