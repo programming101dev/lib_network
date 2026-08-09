@@ -52,11 +52,11 @@ static const unsigned long P101_INET_CLASS_A_REST    = 0xffffffUL;
 static const unsigned long P101_INET_CLASS_B_REST    = 0xffffUL;
 static const unsigned long P101_INET_OCTET_MAX       = 0xffUL;
 
-static int is_inet_addr_none_string(const struct p101_env *env, const char *cp);
+static bool is_inet_addr_none_string(const struct p101_env *env, const char *cp);
 
-static int is_inet_addr_none_string(const struct p101_env *env, const char *cp)
+static bool is_inet_addr_none_string(const struct p101_env *env, const char *cp)
 {
-    int           p101_single_result_;
+    bool          p101_single_result_;
     unsigned long parts[P101_INET_ADDR_PARTS];
     unsigned long value;
     const char   *p;
@@ -73,7 +73,7 @@ static int is_inet_addr_none_string(const struct p101_env *env, const char *cp)
         digit = p101_isdigit(env, (unsigned char)*p);
         if(!digit || count >= P101_INET_ADDR_PARTS)
         {
-            p101_single_result_ = 0;
+            p101_single_result_ = false;
             goto p101_single_exit_;
         }
 
@@ -82,7 +82,7 @@ static int is_inet_addr_none_string(const struct p101_env *env, const char *cp)
         parts[count] = p101_strtoul(env, P101_ERROR_OPTIONAL, p, &end, 0);
         if(end == p || errno != 0)
         {
-            p101_single_result_ = 0;
+            p101_single_result_ = false;
             goto p101_single_exit_;
         }
         count++;
@@ -93,7 +93,7 @@ static int is_inet_addr_none_string(const struct p101_env *env, const char *cp)
         }
         if(*end != '.')
         {
-            p101_single_result_ = 0;
+            p101_single_result_ = false;
             goto p101_single_exit_;
         }
         p = end + 1;
@@ -107,7 +107,7 @@ static int is_inet_addr_none_string(const struct p101_env *env, const char *cp)
         case 2:
             if(parts[0] > P101_INET_OCTET_MAX || parts[1] > P101_INET_CLASS_A_REST)
             {
-                p101_single_result_ = 0;
+                p101_single_result_ = false;
                 goto p101_single_exit_;
             }
             value = (parts[0] << P101_INET_CLASS_A_SHIFT) | parts[1];
@@ -115,7 +115,7 @@ static int is_inet_addr_none_string(const struct p101_env *env, const char *cp)
         case 3:
             if(parts[0] > P101_INET_OCTET_MAX || parts[1] > P101_INET_OCTET_MAX || parts[2] > P101_INET_CLASS_B_REST)
             {
-                p101_single_result_ = 0;
+                p101_single_result_ = false;
                 goto p101_single_exit_;
             }
             value = (parts[0] << P101_INET_CLASS_A_SHIFT) | (parts[1] << P101_INET_CLASS_B_SHIFT) | parts[2];
@@ -123,17 +123,21 @@ static int is_inet_addr_none_string(const struct p101_env *env, const char *cp)
         case 4:
             if(parts[0] > P101_INET_OCTET_MAX || parts[1] > P101_INET_OCTET_MAX || parts[2] > P101_INET_OCTET_MAX || parts[3] > P101_INET_OCTET_MAX)
             {
-                p101_single_result_ = 0;
+                p101_single_result_ = false;
                 goto p101_single_exit_;
             }
             value = (parts[0] << P101_INET_CLASS_A_SHIFT) | (parts[1] << P101_INET_CLASS_B_SHIFT) | (parts[2] << P101_INET_CLASS_C_SHIFT) | parts[3];
             break;
         default:
-            p101_single_result_ = 0;
+            p101_single_result_ = false;
             goto p101_single_exit_;
     }
 
-    p101_single_result_ = value == P101_INET_ADDR_NONE_VALUE;
+    p101_single_result_ = false;
+    if(value == P101_INET_ADDR_NONE_VALUE)
+    {
+        p101_single_result_ = true;
+    }
     goto p101_single_exit_;
 
 p101_single_exit_:
@@ -190,7 +194,7 @@ uint16_t p101_ntohs(const struct p101_env *env, uint16_t netshort)
 
 in_addr_t p101_inet_addr(const struct p101_env *env, struct p101_error *err, const char *cp)
 {
-    int       none_string;
+    bool      none_string;
     in_addr_t ret_val;
 
     P101_TRACE(env);
@@ -198,7 +202,7 @@ in_addr_t p101_inet_addr(const struct p101_env *env, struct p101_error *err, con
     errno   = 0;
     ret_val = inet_addr(cp);
 
-    none_string = 0;
+    none_string = false;
     if(ret_val == (in_addr_t)-1)
     {
         none_string = is_inet_addr_none_string(env, cp);
@@ -307,9 +311,9 @@ static const unsigned long P101_INET_LEGACY_THREE_BYTE_MAX  = 0xffffffUL;
  * IPv4 grammar, with C integer radices. INADDR_NONE is both its failure value
  * and a valid result, so recognize every valid spelling of 0xffffffff.
  */
-static int is_legacy_inet_addr_none_string(const struct p101_env *env, const char *cp)
+static bool is_legacy_inet_addr_none_string(const struct p101_env *env, const char *cp)
 {
-    int           p101_single_result_;
+    bool          p101_single_result_;
     unsigned long parts[P101_INET_LEGACY_ADDR_PARTS];
     const char   *p;
     int           count;
@@ -326,7 +330,7 @@ static int is_legacy_inet_addr_none_string(const struct p101_env *env, const cha
         digit = p101_isdigit(env, (unsigned char)*p);
         if(!digit || count >= P101_INET_LEGACY_ADDR_PARTS)
         {
-            p101_single_result_ = 0;
+            p101_single_result_ = false;
             goto p101_single_exit_;
         }
 
@@ -335,7 +339,7 @@ static int is_legacy_inet_addr_none_string(const struct p101_env *env, const cha
         parts[count] = p101_strtoul(env, P101_ERROR_OPTIONAL, p, &end, 0);
         if(end == p || errno != 0)
         {
-            p101_single_result_ = 0;
+            p101_single_result_ = false;
             goto p101_single_exit_;
         }
         count++;
@@ -347,7 +351,7 @@ static int is_legacy_inet_addr_none_string(const struct p101_env *env, const cha
 
         if(*end != '.')
         {
-            p101_single_result_ = 0;
+            p101_single_result_ = false;
             goto p101_single_exit_;
         }
 
@@ -375,12 +379,16 @@ static int is_legacy_inet_addr_none_string(const struct p101_env *env, const cha
         }
         else
         {
-            p101_single_result_ = 0;
+            p101_single_result_ = false;
             goto p101_single_exit_;
         }
     }
 
-    p101_single_result_ = bytes == 4;
+    p101_single_result_ = false;
+    if(bytes == 4)
+    {
+        p101_single_result_ = true;
+    }
     goto p101_single_exit_;
 
 p101_single_exit_:
@@ -533,7 +541,7 @@ in_addr_t p101_inet_network(const struct p101_env *env, struct p101_error *err, 
     // callers can rely on the p101 error instead of comparing the value.
     if(ret_val == ~(in_addr_t)0)
     {
-        int valid;
+        bool valid;
 
         valid = is_legacy_inet_addr_none_string(env, cp);
         errno = native_errno;
