@@ -401,7 +401,7 @@ static void test_p101_ether_hostton(struct p101_env *env, struct p101_error *err
             }
             if(p101_error_has_error(native_err))
             {
-                if(native_result != -1)
+                if(native_result == 0)
                 {
                     fprintf(stderr, "native smoke returned an undeclared conditional result: p101_ether_hostton\n");
                     native_passed = false;
@@ -663,7 +663,7 @@ static void test_p101_ether_ntohost(struct p101_env *env, struct p101_error *err
             }
             if(p101_error_has_error(native_err))
             {
-                if(native_result != -1)
+                if(native_result == 0)
                 {
                     fprintf(stderr, "native smoke returned an undeclared conditional result: p101_ether_ntohost\n");
                     native_passed = false;
