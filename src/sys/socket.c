@@ -51,6 +51,7 @@ int p101_accept(const struct p101_env *env, struct p101_error *err, int socket, 
         goto p101_single_exit_;
     }
 
+    P101_WRAPPER_BLOCKING(env);
     errno   = 0;
     ret_val = accept(socket, address, address_len);
 
@@ -99,6 +100,7 @@ int p101_connect(const struct p101_env *env, struct p101_error *err, int socket,
 
     P101_TRACE(env);
     P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
+    P101_WRAPPER_BLOCKING(env);
     errno   = 0;
     ret_val = connect(socket, address, address_len);
 

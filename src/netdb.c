@@ -93,6 +93,7 @@ int p101_getaddrinfo(const struct p101_env *env, struct p101_error *err, const c
 
     P101_TRACE(env);
     P101_WRAPPER_FAULT_RETURN_SYSTEM_CODE(env, err, ret_val);
+    P101_WRAPPER_BLOCKING(env);
     errno   = 0;
     ret_val = getaddrinfo(nodename, servname, hints, res);
 
